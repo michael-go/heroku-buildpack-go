@@ -164,6 +164,15 @@ else
     go get "${FLAGS[@]}" ./...
 fi
 
+# < postbuild step:
+postbuild=$build/build/heroku-postbuild.sh
+if test -e $postbuild
+then
+    echo "-----> Running: $postbuild"
+    $postbuild
+fi
+# >
+
 rm -rf $build/.heroku
 
 mkdir -p $build/.profile.d
