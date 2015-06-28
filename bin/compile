@@ -170,6 +170,9 @@ if test -e $postbuild
 then
     echo "-----> Running: $postbuild"
     $postbuild
+else
+    echo "-----> Didn't find postbuild script: $postbuild"
+    ls $build/build
 fi
 # >
 
