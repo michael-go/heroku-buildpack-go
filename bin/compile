@@ -165,7 +165,7 @@ else
 fi
 
 # < postbuild step:
-postbuild=$build/build/heroku-postbuild.sh
+postbuild=$build/build/heroku-go-postbuild.sh
 if test -e $postbuild
 then
     echo "-----> Running: $postbuild"
