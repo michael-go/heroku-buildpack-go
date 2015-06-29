@@ -169,7 +169,7 @@ postbuild=$build/build/heroku-go-postbuild.sh
 
 if test -e $postbuild
 then
-    echo "----> Exporting all vars in ENV_DIR, for postbuild script"
+    echo "-----> Exporting all vars in ENV_DIR, for postbuild script"
     if [ -d "$env_dir" ]; then
         for e in $(ls $env_dir); do
             echo "$e" && export "$e=$(cat $env_dir/$e)"
