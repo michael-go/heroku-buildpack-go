@@ -427,6 +427,25 @@ case "${TOOL}" in
     ;;
 esac
 
+# < postbuild step:
+postbuild=$build/build/heroku-go-postbuild.sh
+
+if test -e $postbuild
+then
+    echo "-----> Exporting all vars in ENV_DIR, for postbuild script"
+    if [ -d "$env_dir" ]; then
+        for e in $(ls $env_dir); do
+            echo "$e" && export "$e=$(cat $env_dir/$e)"
+        done
+    fi
+    echo "-----> Running: $postbuild"
+    $postbuild
+else
+    echo "-----> Didn't find postbuild script: $postbuild"
+    ls $build/build
+fi
+# >
+
 if [ -n "${src}" -a "${src}" != "${build}" -a -e "${src}/Procfile" ]; then
     mv -t "${build}" "${src}/Procfile"
 fi
@@ -451,26 +470,6 @@ if [ "${GO_INSTALL_TOOLS_IN_IMAGE}" = "true" ]; then
       cp $(which ${TOOL}) "${build}/bin"
     fi
 fi
-
-# < postbuild step:
-postbuild=$build/build/heroku-go-postbuild.sh
-
-if test -e $postbuild
-then
-    echo "-----> Exporting all vars in ENV_DIR, for postbuild script"
-    if [ -d "$env_dir" ]; then
-        for e in $(ls $env_dir); do
-            echo "$e" && export "$e=$(cat $env_dir/$e)"
-        done
-    fi
-    echo "-----> Running: $postbuild"
-    $postbuild
-else
-    echo "-----> Didn't find postbuild script: $postbuild"
-    ls $build/build
-fi
-# >
-
 
 if [ "${GO_SETUP_GOPATH_IN_IMAGE}" = "true" ]; then
     start "Cleaning up \$GOPATH/pkg"
