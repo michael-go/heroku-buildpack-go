@@ -117,13 +117,10 @@ ensureHG() {
         rm -rf "${cache}/hg"
         mkdir -p "${hgPath}"
         step "Installing hg ${hgVersion}"
-        echo "KOKO: before ensure mercurial"
         ensureFile "mercurial-${hgVersion}.tar.gz" "${tmp}" "tar -C ${tmp} --strip-components=1 -zxf"
-        echo "KOKO: after ensure mercurial"
         pushd "${tmp}" &> /dev/null
             python setup.py install --force --home="${hgPath}" &> /dev/null
         popd &> /dev/null
-        echo "KOKO: after python setup mercurial"
     fi
 
     addToPATH "${hgPath}/bin"
@@ -395,16 +392,9 @@ case "${TOOL}" in
         export GO15VENDOREXPERIMENT=1
         ensureHG "${MercurialVersion}"
 
-        echo "KOKO: after ensure HG"
-
         # Do this before setupGOPATH as we need ${name} set first
         cd "${build}"
-        echo "KOKO: after 'cd ${build}'"
-        echo "KOKO glide version: `glide --version`"
-        echo "KOKO glide name: `glide name`"
         name=$(glide name 2>/dev/null)
-
-        echo "KOKO: after 'glide name': ${name}"
 
         eval "$(setupGOPATH ${name})"
 
