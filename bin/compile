@@ -398,6 +398,7 @@ case "${TOOL}" in
 
         # Do this before setupGOPATH as we need ${name} set first
         cd "${build}"
+        echo "KOKO: after 'cd ${build}'"
         name=$(glide name 2>/dev/null)
 
         echo "KOKO: after 'glide name': ${name}"
