@@ -392,6 +392,7 @@ case "${TOOL}" in
     ;;
     glide)
         ensureGlide "${GlideVersion}"
+        export GO15VENDOREXPERIMENT=1
         ensureHG "${MercurialVersion}"
 
         echo "KOKO: after ensure HG"
