@@ -399,8 +399,8 @@ case "${TOOL}" in
         # Do this before setupGOPATH as we need ${name} set first
         cd "${build}"
         echo "KOKO: after 'cd ${build}'"
-        echo "KOKO ls: " `ls -a ${cahce}/glide`
         echo "KOKO glide version: `glide --version`"
+        echo "KOKO glide name: `glide name`"
         name=$(glide name 2>/dev/null)
 
         echo "KOKO: after 'glide name': ${name}"
