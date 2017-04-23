@@ -452,14 +452,6 @@ if [ "${GO_INSTALL_TOOLS_IN_IMAGE}" = "true" ]; then
     fi
 fi
 
-if [ "${GO_SETUP_GOPATH_IN_IMAGE}" = "true" ]; then
-    start "Cleaning up \$GOPATH/pkg"
-        rm -rf $GOPATH/pkg
-    finished
-    echo 'export GOPATH=$HOME' > "${build}/.profile.d/zzgopath.sh"  #Try to make sure it's down in towards the end
-    echo 'cd $GOPATH/src/'${name} >> "${build}/.profile.d/zzgopath.sh" # because of this
-fi
-
 # < postbuild step:
 postbuild=$build/build/heroku-go-postbuild.sh
 
@@ -478,6 +470,15 @@ else
     ls $build/build
 fi
 # >
+
+
+if [ "${GO_SETUP_GOPATH_IN_IMAGE}" = "true" ]; then
+    start "Cleaning up \$GOPATH/pkg"
+        rm -rf $GOPATH/pkg
+    finished
+    echo 'export GOPATH=$HOME' > "${build}/.profile.d/zzgopath.sh"  #Try to make sure it's down in towards the end
+    echo 'cd $GOPATH/src/'${name} >> "${build}/.profile.d/zzgopath.sh" # because of this
+fi
 
 if needConcurrency ${ver}; then
     cp $buildpack/vendor/concurrency.sh $build/.profile.d/
